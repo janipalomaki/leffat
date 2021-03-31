@@ -13,6 +13,7 @@ import { StyleSheet} from 'react-native';
 import Categories from "./src/components/Categories";
 import Movies from "./src/components/Movies";
 import Details from "./src/components/Details";
+import Trailer from "./src/components/Trailer";
 
 const Stack = createStackNavigator();
 
@@ -25,6 +26,7 @@ export default function App() {
         <Stack.Screen name="Categories" component={Categories} />
         <Stack.Screen name="Movies" component={Movies} />
         <Stack.Screen name="Details" component={Details} />
+        <Stack.Screen name="Trailer" component={Trailer} />
       </Stack.Navigator>
 
     </NavigationContainer>

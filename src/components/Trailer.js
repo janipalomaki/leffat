@@ -6,7 +6,7 @@ import { StyleSheet, ScrollView, Text } from 'react-native';
 import { Provider as PaperProvider, Portal, Dialog, Paragraph, Card, Title, FAB } from 'react-native-paper';
 
 
-export default function Details ({ route, navigation }) {
+export default function Details ({ route }) {
 
     const {id} = route.params;
 
@@ -22,19 +22,19 @@ export default function Details ({ route, navigation }) {
         tiedotHaettu: false
     });
 
-    const haeElokuvat = async () => {
+    const haeVideot = async () => {
 
         try {
 
             const api_key = "be89a5c9f2b435fe0ba9065707ea930a";
-            const base_url = "https://api.themoviedb.org/3/movie/" + id;
+            const base_url = "https://api.themoviedb.org/3/movie/" + id + "/videos";
             const url = base_url + '?api_key='+ api_key;
             const response = await fetch(url);
             const data = await response.json();
 
             setData({
                 ...data,
-                tiedot : data,
+                tiedot : data.results,
                 tiedotHaettu : true
             });
 
@@ -50,32 +50,25 @@ export default function Details ({ route, navigation }) {
     }
 
     useEffect(() => {
-        haeElokuvat();
+        haeVideot();
     }, []);
 
-    
+
 
     return(
 
         <ScrollView>
             <PaperProvider>
 
+                
                 {(data.tiedotHaettu)
                 ?
                 <Card>
                     <Card.Content>
-                        <Title>{data.tiedot.original_title}</Title>
-                        <Paragraph>{data.tiedot.overview}</Paragraph>
+                        <Title>Leffan id: {id}</Title>
+                        <Paragraph>{JSON.stringify(data.tiedot)}</Paragraph>
                     </Card.Content>
-                    <Card.Cover source={{ uri: "https://image.tmdb.org/t/p/original/" + data.tiedot.poster_path }} />
-
-                    <FAB
-                    style={styles.fab}
-                    small
-                    icon="youtube"
-                    onPress={ () => navigation.navigate("Trailer", 
-                        { id : id })}
-                    />
+                
                 </Card>
 
                 :<Portal>
