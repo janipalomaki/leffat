@@ -1,12 +1,14 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback, useRef } from 'react';
 
-import { StyleSheet, ScrollView, Text } from 'react-native';
+import { StyleSheet, View, Text, Button, Alert } from 'react-native';
 
 // React Native Paper
 import { Provider as PaperProvider, Portal, Dialog, Paragraph, Card, Title, FAB } from 'react-native-paper';
 
+// Youtube iFrame
+import YoutubePlayer from "react-native-youtube-iframe";
 
-export default function Details ({ route }) {
+export default function Trailer ({ route }) {
 
     const {id} = route.params;
 
@@ -21,6 +23,8 @@ export default function Details ({ route }) {
         virhe : null,
         tiedotHaettu: false
     });
+
+    const [trailerKey, setTrailerKey] = useState("");
 
     const haeVideot = async () => {
 
@@ -39,6 +43,7 @@ export default function Details ({ route }) {
             });
 
 
+
         } catch (e) {
 
             setData({
@@ -49,38 +54,84 @@ export default function Details ({ route }) {
         }
     }
 
+const [playing, setPlaying] = useState(false);
+
+  const onStateChange = useCallback((state) => {
+    if (state === "ended") {
+      setPlaying(false);
+      Alert.alert("video has finished playing!");
+    }
+  }, []);
+
+  const togglePlaying = useCallback(() => {
+    setPlaying((prev) => !prev);
+  }, []);
+
+
+    // Youtube API
+    const youtube_api_key = "AIzaSyCxhpoExrDqboYr0Ek6xgDozWjdldbDun4";
+
+
+    // Testaa Expo video toimiiko??
+
+
+    
     useEffect(() => {
         haeVideot();
     }, []);
-
+    
+// Pitää ratkaista, että lataa varmasti tiedot ennen kuin asettaa key:n trailerille!
+    let key = "";
+    (data.tiedotHaettu)
+    ? key = JSON.stringify(data.tiedot[0].key)
+    : key = "odM92ap8_c0"
 
 
     return(
+    <View>
+    {(data.tiedotHaettu)
+      ?<YoutubePlayer
+        height={300}
+        play={playing}
+        videoId={"odM92ap8_c0"}
+        onChangeState={onStateChange}
+      />
+      //<Button title={playing ? "pause" : "play"} onPress={togglePlaying} />
+      
+      :<Text>Videota ladataan, odota hetki...</Text>
+    }
+    </View>
 
-        <ScrollView>
-            <PaperProvider>
 
-                
-                {(data.tiedotHaettu)
-                ?
-                <Card>
-                    <Card.Content>
-                        <Title>Leffan id: {id}</Title>
-                        <Paragraph>{JSON.stringify(data.tiedot)}</Paragraph>
-                    </Card.Content>
-                
-                </Card>
 
-                :<Portal>
-                    <Dialog visible={visible} onDismiss={hideDialog}>
-                        <Dialog.Content>
-                            <Paragraph>Tietoja haetaan, odota hetki...</Paragraph>
-                        </Dialog.Content>
-                    </Dialog>
-                </Portal>
-                }
-            </PaperProvider>
-        </ScrollView>
+        /*
+        <View>
+
+        {(data.tiedotHaettu)
+        ?<Text>{JSON.stringify(data.tiedot[0].id)}</Text>
+        : <Text>Haetaan videota, odota hetki...</Text>
+        }
+
+        </View>
+        */
+       
+        /*
+        <View>
+
+           <YouTube
+        apiKey={youtube_api_key}
+        videoId={JSON.stringify(data.tiedot[0].id)} // The YouTube video ID
+        play // control playback of video with true/false
+        fullscreen // control whether the video should play in fullscreen or inline
+        loop // control whether the video should loop when ended
+        onReady={e => this.setState({ isReady: true })}
+        onChangeState={e => this.setState({ status: e.state })}
+        onChangeQuality={e => this.setState({ quality: e.quality })}
+        onError={e => this.setState({ error: e.error })}
+        style={{ alignSelf: 'stretch', height: 300 }}
+        />
+        </View>
+        */
 
     )
 
