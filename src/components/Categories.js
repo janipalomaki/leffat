@@ -3,7 +3,7 @@ import React from 'react';
 import { StyleSheet, ScrollView } from 'react-native';
 
 // React Native Paper
-import { Provider as PaperProvider, Card, Title } from 'react-native-paper';
+import { Provider as PaperProvider, Card, Title, Text } from 'react-native-paper';
 
 
 export default function Categories ( { navigation }) {
@@ -64,7 +64,7 @@ export default function Categories ( { navigation }) {
                     </Card.Content>
                     <Card.Cover source={{ uri: 'https://image.tmdb.org/t/p/w500' + '/lPsD10PP4rgUGiGR4CCXA6iY0QQ.jpg' }} />
                 </Card>
-
+                <Text style={styles.attribute}>Copyright 2021 Jani Palomäki. Film data from TMDb</Text>
             </PaperProvider>
         </ScrollView>
 
@@ -88,6 +88,11 @@ const styles = StyleSheet.create({
         fontSize : 24,
         marginTop : -15,
         padding : 3
+    },
+    attribute : {
+        textAlign : 'center',
+        fontSize : 12,
+
     }
   });
   

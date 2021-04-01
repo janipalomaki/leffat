@@ -19,7 +19,7 @@ function CustomNavigationBar({ navigation, previous }) {
   return (
     <Appbar.Header>
       {previous ? <Appbar.BackAction onPress={navigation.goBack} /> : null}
-      <Appbar.Content title="LEFFAT" />
+      <Appbar.Content title="LEFFAT" subtitle={"Uusimmat ja suosituimmat elokuvat"} />
     </Appbar.Header>
   );
 }
