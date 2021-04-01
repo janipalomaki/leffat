@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 
-import { StyleSheet, ScrollView, Text } from 'react-native';
+import { StyleSheet, ScrollView } from 'react-native';
 
 // React Native Paper
-import { Provider as PaperProvider, Portal, Dialog, Paragraph, Card, Title, FAB } from 'react-native-paper';
+import { Provider as PaperProvider, Paragraph, Card, Title, FAB, ActivityIndicator, Subheading } from 'react-native-paper';
 
 
 export default function Details ({ route, navigation }) {
@@ -53,22 +53,24 @@ export default function Details ({ route, navigation }) {
         haeElokuvat();
     }, []);
 
-    
-
     return(
 
         <ScrollView>
+            
+            {(data.tiedotHaettu)
+            ?
             <PaperProvider>
-
-                {(data.tiedotHaettu)
-                ?
                 <Card>
                     <Card.Content>
                         <Title>{data.tiedot.original_title}</Title>
+                        <Subheading>"{data.tiedot.tagline}"</Subheading>
+                    </Card.Content>
+                    <Card.Content>
                         <Paragraph>{data.tiedot.overview}</Paragraph>
                     </Card.Content>
-                    <Card.Cover source={{ uri: "https://image.tmdb.org/t/p/original/" + data.tiedot.poster_path }} />
-
+                    <Card.Cover 
+                    style={styles.kuva}
+                    source={{ uri: "https://image.tmdb.org/t/p/original/" + data.tiedot.poster_path }} />
                     <FAB
                     style={styles.fab}
                     small
@@ -77,20 +79,25 @@ export default function Details ({ route, navigation }) {
                         { id : id })}
                     />
                 </Card>
-
-                :<Portal>
-                    <Dialog visible={visible} onDismiss={hideDialog}>
-                        <Dialog.Content>
-                            <Paragraph>Tietoja haetaan, odota hetki...</Paragraph>
-                        </Dialog.Content>
-                    </Dialog>
-                </Portal>
-                }
+                <Card>
+                    <Card.Content>
+                        <Subheading
+                        style={styles.arvio}
+                        >Katsojien arvio: {data.tiedot.vote_average} / 10</Subheading>
+                        <Paragraph>({data.tiedot.vote_count} arvostelua)</Paragraph>
+                    </Card.Content>
+                </Card>
             </PaperProvider>
+            :<ActivityIndicator 
+            style={styles.lataus}
+            size="large"
+            animating={true} 
+                />
+            }
+            
         </ScrollView>
 
     )
-
 }
 
 const styles = StyleSheet.create({
@@ -101,5 +108,11 @@ const styles = StyleSheet.create({
       bottom: 0,
       padding : 10
     },
+    kuva: {
+        marginTop : 15
+    },
+    arvio: {
+        fontWeight : "bold"
+    }
   })
-  
+

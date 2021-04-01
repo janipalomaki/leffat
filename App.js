@@ -3,10 +3,6 @@ import 'react-native-gesture-handler'; // Oltava ensimmäisenä koodissa
 import * as React from 'react';
 import { NavigationContainer} from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-
-// React Native Paper
-import { Provider as PaperProvider } from 'react-native-paper';
-
 import { StyleSheet} from 'react-native';
 
 // Omat komponentit
@@ -17,12 +13,28 @@ import Trailer from "./src/components/Trailer";
 
 const Stack = createStackNavigator();
 
+import { Appbar } from 'react-native-paper';
+
+function CustomNavigationBar({ navigation, previous }) {
+  return (
+    <Appbar.Header>
+      {previous ? <Appbar.BackAction onPress={navigation.goBack} /> : null}
+      <Appbar.Content title="LEFFAT" />
+    </Appbar.Header>
+  );
+}
+
 
 export default function App() {
   return (
     <NavigationContainer>
 
-      <Stack.Navigator initialRouteName="Categories">
+      <Stack.Navigator 
+      initialRouteName="Categories"
+      screenOptions={{
+        header: (props) => <CustomNavigationBar {...props} />,
+      }}
+      >
         <Stack.Screen name="Categories" component={Categories} />
         <Stack.Screen name="Movies" component={Movies} />
         <Stack.Screen name="Details" component={Details} />
@@ -32,6 +44,8 @@ export default function App() {
     </NavigationContainer>
   );
 }
+
+
 
 const styles = StyleSheet.create({
   container: {

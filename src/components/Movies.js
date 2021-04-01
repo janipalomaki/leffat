@@ -1,18 +1,14 @@
 import React, { useEffect, useState } from 'react';
 
-import { ScrollView, Text } from 'react-native';
+import { StyleSheet, ScrollView } from 'react-native';
 
 // React Native Paper
-import { Provider as PaperProvider, Card, Title, Paragraph, Portal, Dialog } from 'react-native-paper';
-
+import { Provider as PaperProvider, Card, Title } from 'react-native-paper';
+import { ActivityIndicator } from 'react-native-paper';
 
 export default function Movies ({ route, navigation }) {
 
     const {kategoria} = route.params;
-
-    // Tietoja haetaan dialogi
-    const [visible, setVisible] = React.useState(false);
-    const hideDialog = () => setVisible(false);
 
 
     // Elokuvadata
@@ -78,13 +74,11 @@ export default function Movies ({ route, navigation }) {
     return(
         <ScrollView>
             <PaperProvider>
-
-                
                 {(data.tiedotHaettu)
                 ? elokuvatiedot.map((elokuvatieto, idx) => {
-                    //console.log(elokuvatieto);
                 return (
                         <Card
+                        style={styles.kortti}
                         onPress={ () => navigation.navigate("Details",
                         { // Viedään tiedot --> "Elokuvantiedot"
                             id : elokuvatieto.id
@@ -93,24 +87,47 @@ export default function Movies ({ route, navigation }) {
                         key={idx}
                         >
                             <Card.Content>
-                                <Title>{elokuvatieto.title}</Title>
-                                <Paragraph>{elokuvatieto.genre_ids}</Paragraph>
+                                <Title
+                                style={styles.otsikko}
+                                >{elokuvatieto.title}</Title>
                             </Card.Content>
+                            <Card.Cover source={{ uri: 'https://image.tmdb.org/t/p/w500' + elokuvatieto.poster_path }} />
                         </Card>
                     )    
                 })
-                :<Portal>
-                    <Dialog visible={visible} onDismiss={hideDialog}>
-                        <Dialog.Content>
-                            <Paragraph>Tietoja haetaan, odota hetki...</Paragraph>
-                        </Dialog.Content>
-                    </Dialog>
-                </Portal>
-                }
+                :<ActivityIndicator 
+                style={styles.lataus}
+                size="large"
+                animating={true} 
+                 />
+            }
             </PaperProvider>
         </ScrollView>
 
-        
     )
 
 }
+
+const styles = StyleSheet.create({
+    container: {
+      flex: 1,
+      backgroundColor: '#fff',
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    kortti : {
+        padding : 3,
+        margin : 5,
+        marginTop : 10,
+    },
+    otsikko : {
+        textAlign : 'center',
+        fontSize : 18,
+        marginTop : -15,
+        padding : 3
+    },
+    lataus : {
+        marginTop : 30
+    }
+  });
+  

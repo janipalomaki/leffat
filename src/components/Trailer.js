@@ -1,21 +1,16 @@
-import React, { useEffect, useState, useCallback, useRef } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 
-import { StyleSheet, View, Text, Button, Alert } from 'react-native';
-
-// React Native Paper
-import { Provider as PaperProvider, Portal, Dialog, Paragraph, Card, Title, FAB } from 'react-native-paper';
+import { StyleSheet, ScrollView } from 'react-native';
 
 // Youtube iFrame
 import YoutubePlayer from "react-native-youtube-iframe";
 
+// React Native Paper
+import { ActivityIndicator } from 'react-native-paper';
+
 export default function Trailer ({ route }) {
 
     const {id} = route.params;
-
-    // Tietoja haetaan dialogi
-    const [visible, setVisible] = React.useState(false);
-    const hideDialog = () => setVisible(false);
-
 
     // Elokuvan tiedot
     const [data, setData] = useState({
@@ -24,25 +19,20 @@ export default function Trailer ({ route }) {
         tiedotHaettu: false
     });
 
-    const [trailerKey, setTrailerKey] = useState("");
-
     const haeVideot = async () => {
 
         try {
-
             const api_key = "be89a5c9f2b435fe0ba9065707ea930a";
             const base_url = "https://api.themoviedb.org/3/movie/" + id + "/videos";
             const url = base_url + '?api_key='+ api_key;
             const response = await fetch(url);
             const data = await response.json();
-
+            
             setData({
                 ...data,
                 tiedot : data.results,
                 tiedotHaettu : true
             });
-
-
 
         } catch (e) {
 
@@ -54,87 +44,62 @@ export default function Trailer ({ route }) {
         }
     }
 
+// Youtube videon toistotila
 const [playing, setPlaying] = useState(false);
 
   const onStateChange = useCallback((state) => {
     if (state === "ended") {
       setPlaying(false);
-      Alert.alert("video has finished playing!");
-    }
-  }, []);
-
-  const togglePlaying = useCallback(() => {
-    setPlaying((prev) => !prev);
-  }, []);
-
-
-    // Youtube API
-    const youtube_api_key = "AIzaSyCxhpoExrDqboYr0Ek6xgDozWjdldbDun4";
-
-
-    // Testaa Expo video toimiiko??
-
-
-    
-    useEffect(() => {
-        haeVideot();
-    }, []);
-    
-// Pitää ratkaista, että lataa varmasti tiedot ennen kuin asettaa key:n trailerille!
-    let key = "";
-    (data.tiedotHaettu)
-    ? key = JSON.stringify(data.tiedot[0].key)
-    : key = "odM92ap8_c0"
-
-
-    return(
-    <View>
-    {(data.tiedotHaettu)
-      ?<YoutubePlayer
-        height={300}
-        play={playing}
-        videoId={"odM92ap8_c0"}
-        onChangeState={onStateChange}
-      />
-      //<Button title={playing ? "pause" : "play"} onPress={togglePlaying} />
       
-      :<Text>Videota ladataan, odota hetki...</Text>
     }
-    </View>
+  }, []);
 
 
+useEffect(() => {
+    haeVideot();
+}, []);
 
-        /*
-        <View>
 
+//--- Luodaan lista trailereista ---
+const trailerit = [];
+for (const property in data.tiedot) {
+    trailerit.push({
+        traileri : data.tiedot[property]
+    })
+}
+const traileritiedot = [];
+trailerit.forEach((traileri, idx) => {
+    traileritiedot.push({
+        key : traileri.traileri.key
+ });
+
+})
+
+  return(
+    <ScrollView>
         {(data.tiedotHaettu)
-        ?<Text>{JSON.stringify(data.tiedot[0].id)}</Text>
-        : <Text>Haetaan videota, odota hetki...</Text>
+          ? traileritiedot.map((traileri, idx) => {
+
+            if (idx == 0){ // Ladataan vain listan ensimmäinen traileri
+              return (
+                <YoutubePlayer
+                  key={idx}
+                  height={300}
+                  play={playing}
+                  videoId={traileri.key}
+                  onChangeState={onStateChange}
+                />
+              )
+            }
+          })
+          :<ActivityIndicator 
+          style={styles.lataus}
+          size="large"
+          animating={true} 
+            />
         }
-
-        </View>
-        */
-       
-        /*
-        <View>
-
-           <YouTube
-        apiKey={youtube_api_key}
-        videoId={JSON.stringify(data.tiedot[0].id)} // The YouTube video ID
-        play // control playback of video with true/false
-        fullscreen // control whether the video should play in fullscreen or inline
-        loop // control whether the video should loop when ended
-        onReady={e => this.setState({ isReady: true })}
-        onChangeState={e => this.setState({ status: e.state })}
-        onChangeQuality={e => this.setState({ quality: e.quality })}
-        onError={e => this.setState({ error: e.error })}
-        style={{ alignSelf: 'stretch', height: 300 }}
-        />
-        </View>
-        */
-
-    )
-
+    </ScrollView>
+  )
 }
 
 const styles = StyleSheet.create({
