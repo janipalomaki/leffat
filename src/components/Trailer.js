@@ -60,7 +60,7 @@ useEffect(() => {
 }, []);
 
 
-//--- Luodaan lista trailereista ---
+// Luodaan lista trailereista
 const trailerit = [];
 for (const property in data.tiedot) {
     trailerit.push({

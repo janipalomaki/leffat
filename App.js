@@ -15,6 +15,7 @@ const Stack = createStackNavigator();
 
 import { Appbar } from 'react-native-paper';
 
+// Appbar:ia varten
 function CustomNavigationBar({ navigation, previous }) {
   return (
     <Appbar.Header>
