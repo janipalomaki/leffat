@@ -26,7 +26,7 @@ export default function Details ({ route, navigation }) {
 
         try {
 
-            const api_key = "be89a5c9f2b435fe0ba9065707ea930a";
+            const api_key = "";
             const base_url = "https://api.themoviedb.org/3/movie/" + id;
             const url = base_url + '?api_key='+ api_key;
             const response = await fetch(url);
