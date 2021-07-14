@@ -76,7 +76,7 @@ To get a local copy up and running follow these simple example steps.
 
 1. Clone the repo
    ```sh
-   git clone https://github.com/janipalomaki/robodog.git
+   git clone https://github.com/janipalomaki/leffat.git
    ```
 2. Open a terminal in your project´s folder and run:
    ```sh
