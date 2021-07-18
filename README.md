@@ -55,7 +55,6 @@ A list of commonly used resources that I find helpful are listed in the acknowle
 * [Expo](https://docs.expo.io/)
 * [React Native](https://reactnative.dev/)
 * [React Native Paper](https://callstack.github.io/react-native-paper/)
-* [Native Base](https://nativebase.io/)
 
 <!--
 ### API sources
