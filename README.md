@@ -90,7 +90,7 @@ To get a local copy up and running follow these simple example steps.
    React  Navigation and Stack module.
    
    
-3. Get a free API Key at The Movie DB (https://www.themoviedb.org/)
+3. Get a free API Key at [The Movie DB](https://www.themoviedb.org/)
 
 4. Enter your API in `confiq.js`
    ```JS
