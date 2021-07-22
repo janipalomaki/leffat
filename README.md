@@ -81,7 +81,6 @@ To get a local copy up and running follow these simple example steps.
    ```sh
    yarn install 
    yarn add react-native-paper 
-   yarn add native-base styled-components styled-system 
    yarn add @react-navigation/native 
    yarn add @react-navigation/stack 
    ```
