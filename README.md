@@ -91,10 +91,15 @@ To get a local copy up and running follow these simple example steps.
    
 3. Get a free API Key at [The Movie DB](https://www.themoviedb.org/)
 
-4. Enter your API in `confiq.js`
+4. Enter your API in `Movies.js`
    ```JS
-   const API_KEY = 'ENTER YOUR API';
+   const api_key = 'ENTER YOUR API';
    ```
+6. Run ```expo start``` in terminal and start exploring LEFFAT App!
+   
+   
+   For testing you need to create an emulator or connect your device as a emulator. 
+   More info about setting up Emulator from [here](https://docs.expo.dev/workflow/android-studio-emulator/)
 
 
 <!-- USAGE EXAMPLES 
