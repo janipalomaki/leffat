@@ -50,6 +50,20 @@ Of course, no one template will serve all projects since your needs may be diffe
 A list of commonly used resources that I find helpful are listed in the acknowledgements.
 -->
 
+## About The Project
+
+The main reason for this app is to collect information about the latest movies. <br>
+With LEFFAT app you can:
+
+<ul>
+  <li>Follow up the latest movies from The Movie Database (TMDB) </li>
+  <li>Get information about movies </li>
+  <li>Watch movie trailers </li>
+</ul>  
+
+This project is created from the pure interest in the latest movies and you can freely use its code in your projects. <br>
+You can find more details below about how to run the app on your phone or another emulator.
+
 ### Built With
 
 * [Expo](https://docs.expo.io/)
