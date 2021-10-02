@@ -103,15 +103,13 @@ To get a local copy up and running follow these simple example steps.
    React  Navigation and Stack module.
    
    
-3. Get a free API Key at [The Movie DB](https://www.themoviedb.org/) for Movies data
+3. Get a free API Key at [The Movie DB](https://www.themoviedb.org/)
 
-4. Get a free API Key at [YouTube](https://developers.google.com/youtube/v3/getting-started) for Trailers data
-
-5. Enter your API keys in `Movies.js` and `Trailer.js`
+4. Enter your API keys in `Movies.js` and `Trailer.js`
    ```JS
    const api_key = 'ENTER YOUR API';
    ```
-6. Run ```expo start``` in terminal and start exploring LEFFAT App!
+5. Run ```expo start``` in terminal and start exploring LEFFAT App!
    
    
    For testing you need to create an emulator or connect your device as a emulator. 
