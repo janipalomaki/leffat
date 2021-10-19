@@ -70,6 +70,9 @@ You can find more details below about how to run the app on your phone or anothe
 * [React Native](https://reactnative.dev/)
 * [React Native Paper](https://callstack.github.io/react-native-paper/)
 
+### API source
+* [The Movie DB](https://www.themoviedb.org/)
+
 <!--
 ### API sources
 * [Cryptocompare](https://min-api.cryptocompare.com/documentation)
